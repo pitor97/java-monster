@@ -45,3 +45,7 @@
     display: none;
 }
 
+.countryName{
+    color: rgb(238, 5, 56);
+   font-size: large;
+}

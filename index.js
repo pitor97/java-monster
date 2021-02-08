@@ -1,41 +1,41 @@
-fetch("https://www.themealdb.com/api/json/v1/1/list.php?i=list")
-.then((res) => res.json())
-.then(data =>{
-  const meal = displayMeals(data.meals)
-
-
-})
-
-const displayMeals = meals =>{
-  
-  const foodContainerDiv = document.getElementById("foodName")
-  meals.forEach(meal => {
-    const foodDiv =document.createElement("div");
-    foodDiv.className='recipe'
-
-    const foodInfo = ` <h3 class="food-name">${meal.strIngredient} </h3>
-    `
-    foodDiv.innerHTML= foodInfo
-    foodContainerDiv.appendChild(foodDiv);
-
-
-  });
-  
+const searchMeal = () => {
+  const Arrabiata = document.getElementById("search-input").value;
+  const url = ` https://www.themealdb.com/api/json/v1/1/search.php?s=${Arrabiata} `;
+  fetch(url)
+    .then((res) => res.json())
+    .then((meals) => displayMeals(meals.meals));
 }
 
+const displayMeals = meals => {
+  
+  const foodContainerDiv = document.getElementById("foodName");
+  meals.forEach(meal => {
+   // console.log(meal);
+    const foodDiv = document.createElement("div");
+    foodDiv.className = "recipe";
 
+    const foodInfo = ` <h3 class="food-name">${meal.strMeal} </h3>
+    <p class="countryName">${meal.strArea} </p>
+    <div class="col-md-3 text-md-right text-center">
+    <button onclick="detailInfo('${meal.strMeal}','${meal.strArea}')" class="btn btn-success">Detail</button>
+</div>
+    `;
+    foodDiv.innerHTML = foodInfo;
+    foodContainerDiv.appendChild(foodDiv);
 
-const searchInput = document.getElementById("search-input");
-const searchButton = document.getElementById("search-button")
-put.addEventListener('keyup', (e) =>{
-  const searchSting = e.target.value;
-const filteredMeal =  meal.filter(meals => {
-  return  mealsName.contain(searchSting)
-  })
-  console.log(filteredMeal);
-})
-const mealsName = document.getElementById("foodName")
-let meal =mealsName
-console.log(searchInput);
+    
+  });
 
+}
+const detailInfo =(mealName, origin)=>{
+ const url = ` https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken_breast${origin} `
+fetch(url)
+.then(res => res.json())
+.then(data => displayDetail(data))
 
+}
+
+const displayDetail = detail =>{
+  const detailInfoDiv = document.getElementById('detaiInfobox')
+  detailInfoDiv.innerText = detail;
+}
